@@ -9,9 +9,6 @@ debug = DebugToolbarExtension(app)
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 
-response = []
-
-
 @app.route("/")
 def start_survey():
     sat = satisfaction_survey.title
