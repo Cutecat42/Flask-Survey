@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from surveys import *
 
@@ -18,13 +18,18 @@ def start_survey():
     instructions = satisfaction_survey.instructions
     return render_template("/index.html", sat=sat, instructions=instructions)
 
+@app.route("/session", methods=["POST"])
+def sess_resp():
+    session['responses'] = []
+    return redirect("/questions/0")
+
 
 number = 0
 
 
 @app.route("/questions/<int:num>")
 def quest(num):
-    if len(response) == num:
+    if len(session['responses']) == num:
         q = satisfaction_survey.questions[num]
         global number
         number = num
@@ -40,8 +45,10 @@ def quest(num):
 @app.route("/answer", methods=["POST"])
 def ans():
     print(request.form)
+    response = session['responses']
     re = request.form.get("choice")
     response.append(re)
+    session['responses'] = response
     print(response)
 
     if number < len(satisfaction_survey.questions) - 1:

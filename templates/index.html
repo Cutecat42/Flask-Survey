@@ -5,8 +5,9 @@
 {% block content %}
 <h1>{{sat}}</h1>
 <h4>{{instructions}}</h4>
-<form action="/questions/0">
+<form action="/session" method="post">
     <button>Submit</button>
 </form>
 
 {% endblock %}
+
